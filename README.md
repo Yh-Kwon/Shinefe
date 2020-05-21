@@ -1,3 +1,2 @@
-# my-repository
-# hello-world
-Hi Developer
+# Hello, this is Shine's blog
+Welcome to my homepage.
