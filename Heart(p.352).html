@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>하트천국</title>
+
+<!-- 보조 함수 -->
+    <script>
+        
+//랜덤 정수 생성
+        function nextRandomInteger(limit){
+            return Math.round(Math.random()*limit);
+        }
+
+//랜덤 문자 리턴
+        var heart = '♡♥';
+        function randomHeart(){
+            return heart.charAt(nextRandomInteger(1));
+        }
+
+//양수, 음수로 랜덤한 속도 생성
+        function randomSpeed(maxSpeed){
+            return Math.random()*maxSpeed-Math.random()*maxSpeed;
+        }
+
+//색깔 랜덤 지정
+        function randomColor(colorList){
+            ranNum = Math.random()*colorList.length;
+            return colorList[parseInt(ranNum)]
+        }
+
+    </script>
+
+<!-- 생성자 함수 -->
+    <script>
+        
+//MovingText의 생성자 함수
+        var canvasWidth = 1000;
+        var canvasHeight = 700;
+        var colorList = ['red','pink','hotpink']
+
+// 위치와 속도 속성
+        function MovingText(){
+         this.x = nextRandomInteger(canvasWidth);   
+         this.y = nextRandomInteger(canvasHeight);   
+         this.vx = randomSpeed(10);
+         this.vy = randomSpeed(10);
+
+// 문서 객체 생성
+         this.body = document.createElement('h1');
+         this.body.innerHTML = randomHeart();
+         this.body.style.position = 'absolute';
+         this.body.style.color = randomColor(colorList)
+
+// 문서 객체 document.body에 추가
+         document.body.appendChild(this.body);
+        }
+
+        MovingText.prototype.move = function(){ //movingText 각각 move기능 생성(?)
+        
+// 범위 검사
+            if(this.x < 0 || this.x > canvasWidth) {this.vx *= -1; }
+            if(this.y < 0 || this.y > canvasHeight) {this.vy *= -1; }
+        
+// 이동
+            this.x += this.vx;
+            this.y += this.vy;
+        
+// 화면에 이동 표시
+            this.body.style.left = this.x + 'px';
+            this.body.style.top = this.y + 'px';
+        };
+    </script>
+
+<!-- window.onload (화면에 뜨는 부분)-->
+    <script>
+        window.onload = function(){
+
+// 변수 선언
+            var movingTexts = [];
+
+// 배열에 MovingText 객체 100개 생성
+            for (var i = 0; i < 100; i++){
+                movingTexts.push(new MovingText());
+            }
+
+// 움직임
+            setInterval(function (){
+                for (var i in movingTexts){ //movingTexts 함수
+                    movingTexts[i].move();  //결과를 가져와서 1개씩 이동
+                }
+            }, 1000/30);    //1초에 30번 이동
+        };
+    </script>
+</head>
+<body>
+    
+</body>
+</html>
